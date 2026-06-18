@@ -32,6 +32,24 @@ let rightEyeBone = null;
 let faceMeshReference = null;
 let avatarLoaded = false;
 
+let activeCase = 'expected';
+let activeEmotion = 'neutral';
+
+const socialProfiles = {
+
+  expected: {
+    emotion: 'happy'
+  },
+
+  task_break: {
+    emotion: 'angry'
+  },
+
+  relation_break: {
+    emotion: 'disgust'
+  }
+};
+
 // 2. Import the Teacher Model
 const loader = new GLTFLoader();
 loader.load(
@@ -73,8 +91,56 @@ function resetAllExpressions(mesh) {
   mesh.morphTargetInfluences.fill(0);
 }
 
+function applyEmotion(mesh, emotion) {
+  if (!mesh) return;
+
+  switch (emotion) {
+
+    case 'happy':
+      setExpression(mesh, 'mouthSmileLeft', 1.0);
+      setExpression(mesh, 'mouthSmileRight', 1.0);
+      setExpression(mesh, 'cheekSquintLeft', 0.6);
+      setExpression(mesh, 'cheekSquintRight', 0.6);
+      break;
+
+    case 'sad':
+      setExpression(mesh, 'innerBrowRaiser', 0.8);
+      setExpression(mesh, 'mouthFrownLeft', 0.8);
+      setExpression(mesh, 'mouthFrownRight', 0.8);
+      break;
+
+    case 'angry':
+      setExpression(mesh, 'browDownLeft', 1.0);
+      setExpression(mesh, 'browDownRight', 1.0);
+      setExpression(mesh, 'eyeSquintLeft', 0.7);
+      setExpression(mesh, 'eyeSquintRight', 0.7);
+      break;
+
+    case 'fear':
+      setExpression(mesh, 'eyeWideLeft', 1.0);
+      setExpression(mesh, 'eyeWideRight', 1.0);
+      setExpression(mesh, 'browInnerUp', 0.8);
+      setExpression(mesh, 'jawOpen', 0.5);
+      break;
+
+    case 'surprise':
+      setExpression(mesh, 'eyeWideLeft', 1.0);
+      setExpression(mesh, 'eyeWideRight', 1.0);
+      setExpression(mesh, 'browInnerUp', 1.0);
+      setExpression(mesh, 'jawOpen', 0.9);
+      break;
+
+    case 'disgust':
+      setExpression(mesh, 'noseSneerLeft', 1.0);
+      setExpression(mesh, 'noseSneerRight', 1.0);
+      setExpression(mesh, 'mouthUpperUpLeft', 0.8);
+      setExpression(mesh, 'mouthUpperUpRight', 0.8);
+      break;
+  }
+}
+
 // 3. THE EXAGGERATED CONTROL PANEL
-let activeCase = 'expected'; 
+// let activeCase = 'expected'; 
 
 const ui = document.createElement('div');
 ui.style.position = 'absolute';
@@ -85,12 +151,23 @@ ui.innerHTML = `
   <div style="background: rgba(0,0,0,0.85); padding: 18px; border-radius: 10px; border: 2px solid #ff3333; font-family: sans-serif;">
     <h3 style="color: #ff3333; margin: 0 0 5px 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;">Demo Mode: Exaggerated Breaks</h3>
     <p style="color: #aaa; margin: 0 0 15px 0; font-size: 11px;">Values are maximized to instantly show behavioral changes.</p>
-    <button id="btn-exp" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#e1e1e1; border:none; border-radius:4px;">1. Expected (Natural Pacing)</button>
-    <button id="btn-task" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#ffcc00; border:none; border-radius:4px;">2. Task Break (Stern Rigidity)</button>
-    <button id="btn-rel" style="padding:12px; font-weight:bold; cursor:pointer; background:#ff3333; color:white; border:none; border-radius:4px;">3. Relation Break (Intimidation)</button>
+    <button id="btn-exp" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#e1e1e1; border:none; border-radius:4px;">1. Expected</button>
+    <button id="btn-task" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#ffcc00; border:none; border-radius:4px;">2. Task Break</button>
+    <button id="btn-rel" style="padding:12px; font-weight:bold; cursor:pointer; background:#ff3333; color:white; border:none; border-radius:4px;">3. Relation Break</button>
     <p style="color:white; margin: 15px 0 0 0; font-size: 14px;">
       Active Profile: <strong id="state-txt" style="color:#00ffcc; text-transform:uppercase;">expected</strong>
     </p>
+    <hr style="margin:10px 0">
+
+    <h4 style="color:white">Ekman Emotions</h4>
+
+    <button id="emo-neutral">Neutral</button>
+    <button id="emo-happy">Happy</button>
+    <button id="emo-sad">Sad</button>
+    <button id="emo-angry">Angry</button>
+    <button id="emo-fear">Fear</button>
+    <button id="emo-surprise">Surprise</button>
+    <button id="emo-disgust">Disgust</button>
   </div>
 `;
 document.body.appendChild(ui);
@@ -102,6 +179,27 @@ const updateUIState = (stateName) => {
 document.getElementById('btn-exp').onclick = () => updateUIState('expected');
 document.getElementById('btn-task').onclick = () => updateUIState('task_break');
 document.getElementById('btn-rel').onclick = () => updateUIState('relation_break');
+
+document.getElementById('emo-neutral').onclick =
+  () => activeEmotion = 'neutral';
+
+document.getElementById('emo-happy').onclick =
+  () => activeEmotion = 'happy';
+
+document.getElementById('emo-sad').onclick =
+  () => activeEmotion = 'sad';
+
+document.getElementById('emo-angry').onclick =
+  () => activeEmotion = 'angry';
+
+document.getElementById('emo-fear').onclick =
+  () => activeEmotion = 'fear';
+
+document.getElementById('emo-surprise').onclick =
+  () => activeEmotion = 'surprise';
+
+document.getElementById('emo-disgust').onclick =
+  () => activeEmotion = 'disgust';
 
 const studentPOV = new THREE.Vector3();
 camera.getWorldPosition(studentPOV);
@@ -206,6 +304,8 @@ function animate() {
         break;
     }
   }
+  
+  applyEmotion(faceMeshReference, activeEmotion);
 
   renderer.render(scene, camera);
 }
