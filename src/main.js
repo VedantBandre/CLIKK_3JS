@@ -82,14 +82,20 @@ ui.style.top = '20px';
 ui.style.left = '20px';
 ui.style.zIndex = '100';
 ui.innerHTML = `
-  <div style="background: rgba(0,0,0,0.85); padding: 18px; border-radius: 10px; border: 2px solid #ff3333; font-family: sans-serif;">
-    <h3 style="color: #ff3333; margin: 0 0 5px 0; font-size: 15px; text-transform: uppercase; letter-spacing: 1px;">Demo Mode: Exaggerated Breaks</h3>
-    <p style="color: #aaa; margin: 0 0 15px 0; font-size: 11px;">Values are maximized to instantly show behavioral changes.</p>
-    <button id="btn-exp" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#e1e1e1; border:none; border-radius:4px;">1. Expected (Natural Pacing)</button>
-    <button id="btn-task" style="padding:12px; margin-right:5px; font-weight:bold; cursor:pointer; background:#ffcc00; border:none; border-radius:4px;">2. Task Break (Stern Rigidity)</button>
-    <button id="btn-rel" style="padding:12px; font-weight:bold; cursor:pointer; background:#ff3333; color:white; border:none; border-radius:4px;">3. Relation Break (Intimidation)</button>
-    <p style="color:white; margin: 15px 0 0 0; font-size: 14px;">
-      Active Profile: <strong id="state-txt" style="color:#00ffcc; text-transform:uppercase;">expected</strong>
+  <div style="background: #554e4ec9; padding: 18px; border-radius: 10px; border: 2px solid #ff5500; font-family: sans-serif; width: 400px; text-align: center;">
+    <h3 style="color: #ff5500; margin: 0 0 5px 0; font-size: 18px; font-style: bold; text-transform: uppercase; letter-spacing: 1px;">Demo Mode: Exaggerated Breaks</h3>
+    <p style="color: #fff; margin: 15px 0 15px 0; font-size: 14px;">Values are maximized to instantly show behavioral changes</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+      <button id="btn-exp" style="padding:12px; text-shadow: 0px 0px 2px rgba(0,0,0,0.2); font-weight:bold; cursor:pointer; background:#28a745; color:white; border:none; border-radius:4px; text-transform: uppercase;">Expected</button>
+      
+      <button id="btn-task" style="padding:12px; text-shadow: 0px 0px 2px rgba(0,0,0,0.2); font-weight:bold; cursor:pointer; background:#d4a017; color:white; border:none; border-radius:4px; text-transform: uppercase;">Task Break</button>
+      
+      <button id="btn-rel" style="padding:12px; text-shadow: 0px 0px 2px rgba(0,0,0,0.2); font-weight:bold; cursor:pointer; background:#dc3545; color:white; border:none; border-radius:4px; text-transform: uppercase;">Relation Break</button>
+    </div>
+
+    <p style="color:white; margin: 0; font-size: 14px;">
+      Active Profile: <strong id="state-txt" style="color:cyan; text-transform:uppercase;">expected</strong>
     </p>
   </div>
 `;
