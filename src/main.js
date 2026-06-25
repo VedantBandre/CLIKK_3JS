@@ -502,21 +502,21 @@ ui.style.cssText = `
   position: absolute; top: 20px; left: 20px; z-index: 100;
 `;
 ui.innerHTML = `
-  <div style="background: rgba(0,0,0,0.85); padding: 18px; border-radius: 10px;
-              border: 2px solid #00ffcc; font-family: sans-serif;">
-    <h3 style="color: #00ffcc; margin: 0 0 12px 0; font-size: 15px;
-               text-transform: uppercase; letter-spacing: 1px;">Emotion State</h3>
-    <div id="emotion-buttons" style="display: flex; flex-wrap: wrap; gap: 6px;">
+  <div style="background: rgba(0,0,0,0.85); padding: 18px; border-radius: 3px;
+              border: 3px solid #00ffcc; font-family: sans-serif;">
+    <h3 style="color: #00ffcc; margin: 3px 0 15px 0; font-size: 18px;
+               text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">Emotion State</h3>
+    <div id="emotion-buttons" style="display: flex; flex-direction:column; flex-wrap: wrap; gap: 6px;">
       ${EMOTIONS.map(e => `
         <button id="btn-${e}" data-emotion="${e}"
-          style="padding: 10px 14px; font-weight: bold; cursor: pointer;
+          style="padding: 15px 5px; font-weight: semibold; cursor: pointer;
                  background: #222; color: #ccc; border: 1px solid #555;
-                 border-radius: 4px; text-transform: capitalize;">
+                 border-radius: 2px; text-transform: capitalize;">
           ${e}
         </button>
       `).join('')}
     </div>
-    <p style="color: white; margin: 14px 0 0 0; font-size: 14px;">
+    <p style="color: white; margin: 14px 0 0 0; font-size: 14px; text-align:center">
       Active: <strong id="state-txt" style="color: #00ffcc; text-transform: uppercase;">neutral</strong>
     </p>
   </div>
