@@ -445,12 +445,21 @@ loader.load(
   (error) => { console.error('Loader error:', error); }
 );
 
+// Gain/Amplification
+const EXPRESSION_GAIN = 1.25;
 
 function setExpression(mesh, targetKey, weight) {
   if (!mesh) return;
+
   const targetIndex = mesh.morphTargetDictionary[targetKey];
+
   if (targetIndex !== undefined) {
-    mesh.morphTargetInfluences[targetIndex] = weight;
+
+    const amplifiedWeight =
+      Math.min(weight * EXPRESSION_GAIN, 1.0);
+
+    mesh.morphTargetInfluences[targetIndex] =
+      amplifiedWeight;
   }
 }
 
