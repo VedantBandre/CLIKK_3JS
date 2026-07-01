@@ -551,10 +551,10 @@ function animate() {
 
   if (avatarLoaded) {
     // Exaggerated organic baseline rhythm variables for clear contrast
-    const naturalSwayX = Math.sin(time * 1.2) * 0.08;
-    const naturalSwayY = Math.cos(time * 0.6) * 0.02;
+    // const naturalSwayX = Math.sin(time * 1.2) * 0.08;
+    // const naturalSwayY = Math.cos(time * 0.6) * 0.02;
 
-    agentModel.position.set(naturalSwayX, naturalSwayY, 0);
+    agentModel.position.set(0, 0, 0);
 
     const lookAwayTimer = time % 4.0;
     if (lookAwayTimer > 2.5) {
