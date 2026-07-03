@@ -1,47 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import dialogueTree from './dialogueTree.js';
+import auToArkitMapping from './auToArkitMapping.js';
 
-/* -------------------------------------------------------
-   GAME DIALOGUE TREE (Your Flowchart Structure)
-------------------------------------------------------- */
-
-// 👈 Populate this with the actual text from your PDF nodes!
-const dialogueTree = {
-  start: {
-    speaker: "Mrs. Zhang",
-    text: "Welcome. We need to discuss the project timeline. I hope you have the results ready.",
-    expression: "idle", 
-    options: [
-      { text: "Yes, Mrs. Zhang. Here is the complete breakdown.", nextNode: "provide_results" },
-      { text: "Uh, about that... we hit a couple of unexpected delays.", nextNode: "angry_confrontation" }
-    ]
-  },
-  provide_results: {
-    speaker: "Mrs. Zhang",
-    text: "Impressive work. This is exactly what I was looking for. Let us move to the next phase.",
-    expression: "idle",
-    options: [
-      { text: "Thank you. Let's look at the deployment phase.", nextNode: "start" } // Loops back for demo
-    ]
-  },
-  angry_confrontation: {
-    speaker: "Mrs. Zhang",
-    text: "Delays?! Again? We cannot afford another setback on this contract!",
-    expression: "angry", // 👈 This automatically activates your blendshape loop
-    options: [
-      { text: "I take full responsibility. Here is our mitigation plan.", nextNode: "provide_results" },
-      { text: "It wasn't my fault, the API endpoint went down!", nextNode: "defensive_loop" }
-    ]
-  },
-  defensive_loop: {
-    speaker: "Mrs. Zhang",
-    text: "I do not want excuses, I want solutions! Fix this immediately.",
-    expression: "angry",
-    options: [
-      { text: "Apologies. Resetting scenario...", nextNode: "start" }
-    ]
-  }
-};
 
 let currentNodeId = "start";
 
@@ -49,49 +10,85 @@ let currentNodeId = "start";
    LOAD AU TIME-SERIES DATA & GLOBAL STATE
 ------------------------------------------------------- */
 
-let animationFrames = [];
+let emotionClips = {};
+let activeClip = null;
+let emotionStartTime = 0;
+let emotionDuration = 1.0;
+let emotionFinished = false;
+
 let morphableMeshes = []; 
 let avatarLoaded = false;
-let mode = "idle"; 
+let mode = "idle";
+let clipsLoaded = false; // Track when clips are ready
 
-fetch('/threejs_animation.json')
-  .then(res => res.json())
-  .then(data => {
-    animationFrames = data.frames; 
-    console.log("Loaded frames:", animationFrames.length);
-  });
-
-/* -------------------------------------------------------
-   AU → ARKIT MAPPING & SETUP
-------------------------------------------------------- */
-
-const auToArkitMapping = {
-  au01_inner_brow_raiser: "browInnerUp",
-  au02_outer_brow_raiser: ["browOuterUpLeft", "browOuterUpRight"],
-  au04_brow_lowerer: ["browDownLeft", "browDownRight"],
-  au05_upper_lid_raiser: ["eyeWideLeft", "eyeWideRight"],
-  au06_cheek_raiser: ["cheekSquintLeft", "cheekSquintRight"],
-  au07_lid_tightener: ["eyeSquintLeft", "eyeSquintRight"],
-  au41_lid_droop: ["eyeLookDownLeft", "eyeLookDownRight"],
-  au42_eye_squint: ["eyeSquintLeft", "eyeSquintRight"],
-  au45_blink: ["eyeBlinkLeft", "eyeBlinkRight"],
-  au09_nose_wrinkler: ["noseSneerLeft", "noseSneerRight"],
-  au34_cheek_puff: "cheekPuff",
-  au10_upper_lip_raiser: ["mouthUpperUpLeft", "mouthUpperUpRight"],
-  au12_lip_corner_puller: "mouthSmile",
-  au14_dimpler: ["mouthDimpleLeft", "mouthDimpleRight"],
-  au15_lip_corner_depressor: ["mouthFrownLeft", "mouthFrownRight"],
-  au16_lower_lip_depressor: "mouthShrugLower",
-  au18_lip_pucker: "mouthPucker",
-  au20_lip_stretcher: ["mouthStretchLeft", "mouthStretchRight"],
-  au22_lip_funneler: "mouthFunnel",
-  au25_lips_part: "mouthOpen",
-  au26_jaw_drop: "jawOpen",
-  au27_mouth_stretch: "mouthStretchLeft"
+const emotionFiles = {
+  angry: 'trajectory/angry.json',
+  disgusted: 'trajectory/disgusted.json',
+  fearful: 'trajectory/fearful.json',
+  happy: 'trajectory/happy.json',
+  neutral: 'trajectory/neutral.json',
+  sad: 'trajectory/sad.json',
+  surprised: 'trajectory/surprised.json'
 };
+
+Promise.all(
+  Object.entries(emotionFiles).map(([name, path]) =>
+    fetch(path).then(r => r.json()).then(data => [name, data])
+  )
+).then(entries => {
+  emotionClips = Object.fromEntries(
+    entries.map(([name, data]) => {
+      return [
+        name,
+        {
+          frames: data,
+          duration: data[data.length - 1].timestamp_norm
+        }
+      ];
+    })
+  );
+  clipsLoaded = true; // Mark clips as loaded
+  console.log("Loaded emotions:", Object.keys(emotionClips));
+}).catch(err => console.error("Failed to load emotion clips:", err));
+
 
 const EXPRESSION_GAIN = 1.25;
 const scene = new THREE.Scene();
+
+function blendFrames(a, b, alpha) {
+  const out = {};
+  for (const key in a) {
+    if (key === "timestamp_norm") continue;
+    const v1 = a[key] ?? 0;
+    const v2 = b[key] ?? 0;
+    out[key] = v1 * (1 - alpha) + v2 * alpha;
+  }
+  return out;
+}
+
+function sampleEmotionClip(clip, tNorm) {
+  if (!clip || clip.length === 0) return null;
+
+  for (let i = 0; i < clip.length - 1; i++) {
+    const f1 = clip[i];
+    const f2 = clip[i + 1];
+
+    if (tNorm >= f1.timestamp_norm && tNorm <= f2.timestamp_norm) {
+      const alpha =
+        (tNorm - f1.timestamp_norm) /
+        (f2.timestamp_norm - f1.timestamp_norm + 1e-6);
+
+      return blendFrames(f1, f2, alpha);
+    }
+  }
+
+  return clip[clip.length - 1];
+}
+
+function getClipDuration(clip) {
+  return clip?.length ? clip[clip.length - 1].timestamp_norm : 1.0;
+}
+
 
 const textureLoader = new THREE.TextureLoader();
 textureLoader.load('src/assets/background.png', (texture) => {
@@ -100,8 +97,7 @@ textureLoader.load('src/assets/background.png', (texture) => {
 });
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
-// 🎥 Camera positioned looking directly at Mrs. Zhang from "Your" perspective
-camera.position.set(0, 1.42, 1.5); 
+camera.position.set(0, 1.6, 0.8); 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -144,7 +140,6 @@ loader.load('/models/agent_animations.glb', (gltf) => {
   });
 
   avatarLoaded = true;
-  // Start the game interface once everything is ready
   goToDialogueNode(currentNodeId); 
 });
 
@@ -177,13 +172,12 @@ function resetAllFaces() {
    DYNAMIC INTERACTIVE UI SYSTEM
 ------------------------------------------------------- */
 
-// Create UI HTML Container dynamically
 const gameUI = document.createElement("div");
 gameUI.style.position = "absolute";
 gameUI.style.bottom = "30px";
 gameUI.style.left = "50%";
 gameUI.style.transform = "translateX(-50%)";
-gameUI.style.width = "80%%";
+gameUI.style.width = "80%";
 gameUI.style.maxWidth = "800px";
 gameUI.style.display = "flex";
 gameUI.style.flexDirection = "column";
@@ -197,14 +191,10 @@ function goToDialogueNode(nodeId) {
   const node = dialogueTree[nodeId];
   if (!node) return;
 
-  // 1. Set the facial expression state
+  // 1. Set emotion state
   mode = node.expression;
-  resetAllFaces();
-  
-  if (mode === "idle" && idleAction) {
-    idleAction.play();
-    idleAction.reset();
-  }
+  emotionStartTime = performance.now();
+  emotionFinished = false;
 
   // 2. Clear previous interface UI
   gameUI.innerHTML = "";
@@ -255,7 +245,6 @@ function goToDialogueNode(nodeId) {
 ------------------------------------------------------- */
 
 let lastTime = performance.now();
-let totalElapsedTime = 0;
 
 function animate() {
   requestAnimationFrame(animate);
@@ -269,24 +258,35 @@ function animate() {
     return;
   }
 
-  totalElapsedTime += delta;
-
   // Update underlying skeletal animations
   if (mixer) mixer.update(delta);
 
-  // Apply custom expression maps if Mrs. Zhang is simulated as angry
-  if (mode === "angry" && animationFrames.length > 0 && morphableMeshes.length > 0) {
-    const loopDuration = 1.0; 
-    const currentTime = (totalElapsedTime % loopDuration); 
+  // 👈 FIX: Only process emotions if clips are loaded
+  if (clipsLoaded && mode !== "idle") {
+    const clip = emotionClips[mode];
 
-    let targetFrame = animationFrames.find(f => f.t >= currentTime);
-    if (!targetFrame) {
-      targetFrame = animationFrames[animationFrames.length - 1];
+    if (clip && clip.frames) {
+      const elapsed = (now - emotionStartTime) / 1000;
+      const duration = getClipDuration(clip.frames);
+      const tNorm = Math.min(elapsed / duration, 1.0);
+
+      const frame = sampleEmotionClip(clip.frames, tNorm);
+
+      if (frame) {
+        morphableMeshes.forEach(mesh => {
+          applyAUFrame(mesh, frame);
+        });
+      }
+
+      // 👈 FIX: Transition back to idle when animation finishes
+      if (elapsed >= duration) {
+        mode = "idle";
+        emotionStartTime = now;
+      }
     }
-    
-    morphableMeshes.forEach(mesh => {
-      applyAUFrame(mesh, targetFrame);
-    });
+  } else if (mode === "idle") {
+    // 👈 FIX: Only reset when truly idle
+    resetAllFaces();
   }
 
   renderer.render(scene, camera);
