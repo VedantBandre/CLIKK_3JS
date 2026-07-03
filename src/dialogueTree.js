@@ -1,5 +1,5 @@
 /**
- * GAME DIALOGUE TREE - PART 1 (The Dinner Scene Intro)
+ * GAME DIALOGUE TREE - The Dinner Scene
  */
 
 const dialogueTree = {
@@ -84,7 +84,7 @@ const dialogueTree = {
   left_branch_pays: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays the bill.",
-    expression: "neutral", 
+    expression: "smile_polite", // EXPRESS POLITE SMILE
     options: [
       { text: "Continue", nextNode: "left_branch_obligation_break" }
     ]
@@ -114,7 +114,7 @@ const dialogueTree = {
   left_branch_warm_smile: {
     speaker: "Mrs. Zhang",
     text: "Mrs. Zhang smiles warmly and happy.",
-    expression: "happy",
+    expression: "happy", // EXPRESS WARM SMILE
     options: [
       { text: "Continue", nextNode: "left_branch_join_next" }
     ]
@@ -131,7 +131,7 @@ const dialogueTree = {
 
   left_branch_feedback_good: {
     speaker: "Learning Feedback",
-    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\n\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
+    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
     expression: "neutral",
     options: [
       { text: "Replay Scenario", nextNode: "bill_trigger" }
@@ -152,7 +152,7 @@ const dialogueTree = {
   left_branch_abrupt_end: {
     speaker: "Narrator",
     text: "Mrs. Zhang still smiles politely but ends the conversation immediately.",
-    expression: "neutral", // Alternatively "neutral" or a polite, strained expression
+    expression: "smile_polite", // EXPRESS POLITE SMILE
     options: [
       { text: "Show Feedback", nextNode: "left_branch_feedback_bad" }
     ]
@@ -160,7 +160,7 @@ const dialogueTree = {
 
   left_branch_feedback_bad: {
     speaker: "Learning Feedback",
-    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\n\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. A better option would be offering, that you pay for dinner the next time signaling the willingness to return the favor in the future.",
+    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. A better option would be offering, that you pay for dinner the next time signaling the willingness to return the favor in the future.",
     expression: "neutral",
     options: [
       { text: "Replay Scenario", nextNode: "bill_trigger" }
@@ -199,22 +199,22 @@ const dialogueTree = {
   center_g1_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be moderately confused.",
-    expression: "surprised", // Using surprised to convey moderate confusion
+    expression: "smile_polite", // EXPRESS POLITE SMILE & MODERATE CONFUSION
     options: [
-      { text: "Says nothing.", nextNode: "center_g1_silence" },
+      { text: "(Say nothing)", nextNode: "center_g1_silence" },
       { text: "Next time, I would like to invite you", nextNode: "center_g1_mitigate" }
     ]
   },
 
   center_g1_silence: {
     speaker: "You",
-    text: "...",
+    text: "(silence)",
     options: [{ text: "Show Feedback", nextNode: "center_g1_silence_feedback" }]
   },
 
   center_g1_silence_feedback: {
     speaker: "Learning Feedback",
-    text: "You correctly offered to pay once, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
+    text: "You correctly offered to pay once, showing appreciation for your host's generosity.\nIn many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -227,13 +227,13 @@ const dialogueTree = {
   center_g1_mitigate_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles warmly and happy. \n\n[Mrs. Zhang]: That is very kind of you. I would be happy to join you next time.",
-    expression: "happy",
+    expression: "happy", // EXPRESS WARM SMILE
     options: [{ text: "Show Feedback", nextNode: "center_g1_mitigate_feedback" }]
   },
 
   center_g1_mitigate_feedback: {
     speaker: "Learning Feedback",
-    text: "You correctly offered to pay once, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
+    text: "You correctly offered to pay once, showing appreciation for your host's generosity.\nIn many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -265,7 +265,7 @@ const dialogueTree = {
   center_g2_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be slightly confused.",
-    expression: "surprised",
+    expression: "smile_polite", // EXPRESS POLITE SMILE & SLIGHT CONFUSION
     options: [
       { text: "Says nothing.", nextNode: "center_g2_silence" },
       { text: "Next time, I would like to invite you", nextNode: "center_g2_mitigate" }
@@ -280,7 +280,7 @@ const dialogueTree = {
 
   center_g2_silence_feedback: {
     speaker: "Learning Feedback",
-    text: "You correctly offered to pay twice, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
+    text: "You correctly offered to pay twice, showing appreciation for your host's generosity.\nIn many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -293,13 +293,13 @@ const dialogueTree = {
   center_g2_mitigate_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles warmly and happy. \n\n[Mrs. Zhang]: That is very kind of you. I would be happy to join you next time.",
-    expression: "happy",
+    expression: "happy", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: "Show Feedback", nextNode: "center_g2_mitigate_feedback" }]
   },
 
   center_g2_mitigate_feedback: {
     speaker: "Learning Feedback",
-    text: "You correctly offered to pay twice, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
+    text: "You correctly offered to pay twice, showing appreciation for your host's generosity.\nIn many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -338,13 +338,13 @@ const dialogueTree = {
   center_g3_outcome: {
     speaker: "Narrator",
     text: "Mrs Zhang pays the bill and smiles warmly. She is happy.",
-    expression: "happy",
+    expression: "happy", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: "Show Feedback", nextNode: "center_g3_feedback" }]
   },
 
   center_g3_feedback: {
     speaker: "Learning Feedback",
-    text: "The interaction follows the expected social ritual. You handled this situation appropriately according to common Chinese business etiquette.\n\nAlthough Mrs. Zhang intended to pay from the beginning, it is customary to politely refuse the offer thrice before finally accepting. The purpose of this exchange is not to determine who actually pays, but to demonstrate sincerity, respect, and appreciation for the other person's generosity. By offering to pay multiple times, you showed that you did not simply expect your host to cover the bill. By accepting the invitation after Mrs. Zhang continued to insist, you also respected her role as the host and her higher hierarchical position.",
+    text: "The interaction follows the expected social ritual. You handled this situation appropriately according to common Chinese business etiquette.\n\nAlthough Mrs. Zhang intended to pay from the beginning, it is customary to politely refuse the offer thrice before finally accepting. The purpose of this exchange is not to determine who actually pays, but to demonstrate sincerity, respect, and appreciation for the other person's generosity.\nBy offering to pay multiple times, you showed that you did not simply expect your host to cover the bill. By accepting the invitation after Mrs. Zhang continued to insist, you also respected her role as the host and her higher hierarchical position.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -366,7 +366,7 @@ const dialogueTree = {
   center_round4_strained_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang only smiles lightly. But she seems to be ashamed.",
-    expression: "fearful", // Close to "ashamed"/uncomfortable for basic expression maps
+    expression: "surprised", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [
       { text: "Thank you very much.", nextNode: "center_overdone_give_in" },
       { text: "No, I couldn't possibly.", nextNode: "center_round5_break" }
@@ -383,13 +383,13 @@ const dialogueTree = {
   center_overdone_give_in_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be slightly ashamed",
-    expression: "neutral",
+    expression: "surprised", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [{ text: "Show Feedback", nextNode: "center_overdone_give_in_feedback" }]
   },
 
   center_overdone_give_in_feedback: {
     speaker: "Learning Feedback",
-    text: "You showed respect by repeatedly offering to pay the bill, which is an important part of Chinese dining etiquette. However, continuing to insist after three polite exchanges can eventually become counterproductive.\n\nIn many Chinese social and business settings, the host is expected to insist on paying several times as part of a ritual of politeness. Once this ritual has been completed, it is generally appropriate to graciously accept the invitation. Persisting beyond this point may unintentionally communicate that you do not trust your host to fulfill their role, or that you doubt their ability to treat you. This can place unnecessary pressure on the host and make the situation uncomfortable.",
+    text: "You showed respect by repeatedly offering to pay the bill, which is an important part of Chinese dining etiquette. However, continuing to insist after three polite exchanges can eventually become counterproductive.\n\nIn many Chinese social and business settings, the host is expected to insist on paying several times as part of a ritual of politeness.\nOnce this ritual has been completed, it is generally appropriate to graciously accept the invitation. Persisting beyond this point may unintentionally communicate that you do not trust your host to fulfill their role, or that you doubt their ability to treat you.\nThis can place unnecessary pressure on the host and make the situation uncomfortable.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -403,7 +403,7 @@ const dialogueTree = {
   center_round5_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang stops smiling and she seems to be ashamed.",
-    expression: "neutral", 
+    expression: "surprised", // EXPRESS ASHAMED
     options: [{ text: "Continue", nextNode: "center_round5_take_bill" }]
   },
 
@@ -417,7 +417,7 @@ const dialogueTree = {
   center_round5_outcome: {
     speaker: "Narrator",
     text: "You pay. Mrs. Zhang doesn't smile but shows sign of frustration and anger.",
-    expression: "angry",
+    expression: "angry", // EXPRESS FRUSTRATION AND ANGER
     options: [{ text: "Show Feedback", nextNode: "center_round5_feedback" }]
   },
 
@@ -442,7 +442,7 @@ const dialogueTree = {
   right_round1_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang stops smiling and seems surprised.",
-    expression: "surprised",
+    expression: "surprised", // EXPRESS SURPRISED
     options: [
       { text: "Continue", nextNode: "right_round1_response" }
     ]
@@ -471,7 +471,7 @@ const dialogueTree = {
   right_backtrack_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles again and pays the bill.",
-    expression: "happy",
+    expression: "happy", // EXPRESS SMILE
     options: [
       { text: "Continue", nextNode: "right_backtrack_statement" }
     ]
@@ -507,7 +507,7 @@ const dialogueTree = {
   right_persist_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang is now slightly frustrated in addition.",
-    expression: "neutral", // Can map a slightly strained/annoyed face here
+    expression: "angry", // EXPRESS SLIGHT FRUSTRATION
     options: [
       { text: "Continue", nextNode: "right_persist_response" }
     ]
@@ -536,7 +536,7 @@ const dialogueTree = {
   right_mitigate_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang slightly smiles again and pays the bill.",
-    expression: "happy",
+    expression: "happy", // EXPRESS SLIGHT SMILE
     options: [
       { text: "Show Feedback", nextNode: "right_mitigate_feedback" }
     ]
@@ -563,7 +563,7 @@ const dialogueTree = {
   right_force_split_outcome: {
     speaker: "Narrator",
     text: "Mrs. Zhang seems more frustrated and you split the bill.",
-    expression: "angry", // Passing the clear frustration to the 3D model
+    expression: "angry", // EXPRESS FRUSTRATION
     options: [
       { text: "Show Feedback", nextNode: "right_force_split_feedback" }
     ]

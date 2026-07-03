@@ -28,7 +28,8 @@ const emotionFiles = {
   happy: 'trajectory/happy.json',
   neutral: 'trajectory/neutral.json',
   sad: 'trajectory/sad.json',
-  surprised: 'trajectory/surprised.json'
+  surprised: 'trajectory/surprised.json',
+  smile_polite: 'trajectory/smile_polite.json'
 };
 
 Promise.all(
@@ -215,8 +216,19 @@ function goToDialogueNode(nodeId) {
   dialogueBox.style.color = "#fff";
   dialogueBox.style.padding = "20px";
   dialogueBox.style.borderRadius = "8px";
-  dialogueBox.style.borderLeft = mode === "angry" ? "5px solid #ff4444" : "5px solid #44aaff";
-  dialogueBox.innerHTML = `<strong>${node.speaker}:</strong> <p style="margin: 5px 0 0 0; line-height: 1.4;">${node.text}</p>`;
+  let borderColor = "#44aaff";
+  if (node.speaker === "Narrator") {
+    borderColor = "#888888";
+  } else if (node.speaker === "Mrs. Zhang") {
+    borderColor = mode === "angry" ? "#ff4444" : "#44aaff";
+  } else if (node.speaker === "Learning Feedback") {
+    borderColor = "#ffa500";
+  } else if (node.speaker === "You") {
+    borderColor = "#4caf50";
+  }
+  dialogueBox.style.borderLeft = `5px solid ${borderColor}`;
+  const formattedText = node.text.replace(/\n/g, '<br>');
+  dialogueBox.innerHTML = `<strong>${node.speaker}:</strong> <p style="margin: 5px 0 0 0; line-height: 1.4; white-space: pre-wrap;">${formattedText}</p>`;
   gameUI.appendChild(dialogueBox);
 
   // 4. Create "Your" Action/Choice Container
@@ -235,6 +247,7 @@ function goToDialogueNode(nodeId) {
     choiceBtn.style.borderRadius = "4px";
     choiceBtn.style.cursor = "pointer";
     choiceBtn.style.fontWeight = "bold";
+    choiceBtn.style.fontFamily = "sans-serif";
     choiceBtn.style.transition = "0.2s";
 
     choiceBtn.onmouseenter = () => choiceBtn.style.background = "#eeeeee";
