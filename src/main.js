@@ -261,7 +261,7 @@ function animate() {
   // Update underlying skeletal animations
   if (mixer) mixer.update(delta);
 
-  // 👈 FIX: Only process emotions if clips are loaded
+  // FIX: Only process emotions if clips are loaded
   if (clipsLoaded && mode !== "idle") {
     const clip = emotionClips[mode];
 
@@ -278,14 +278,14 @@ function animate() {
         });
       }
 
-      // 👈 FIX: Transition back to idle when animation finishes
+      // FIX: Transition back to idle when animation finishes
       if (elapsed >= duration) {
         mode = "idle";
         emotionStartTime = now;
       }
     }
   } else if (mode === "idle") {
-    // 👈 FIX: Only reset when truly idle
+    // FIX: Only reset when truly idle
     resetAllFaces();
   }
 
