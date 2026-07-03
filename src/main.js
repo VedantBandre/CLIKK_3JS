@@ -2,14 +2,56 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 /* -------------------------------------------------------
-   LOAD AU TIME-SERIES DATA
+   GAME DIALOGUE TREE (Your Flowchart Structure)
+------------------------------------------------------- */
+
+// 👈 Populate this with the actual text from your PDF nodes!
+const dialogueTree = {
+  start: {
+    speaker: "Mrs. Zhang",
+    text: "Welcome. We need to discuss the project timeline. I hope you have the results ready.",
+    expression: "idle", 
+    options: [
+      { text: "Yes, Mrs. Zhang. Here is the complete breakdown.", nextNode: "provide_results" },
+      { text: "Uh, about that... we hit a couple of unexpected delays.", nextNode: "angry_confrontation" }
+    ]
+  },
+  provide_results: {
+    speaker: "Mrs. Zhang",
+    text: "Impressive work. This is exactly what I was looking for. Let us move to the next phase.",
+    expression: "idle",
+    options: [
+      { text: "Thank you. Let's look at the deployment phase.", nextNode: "start" } // Loops back for demo
+    ]
+  },
+  angry_confrontation: {
+    speaker: "Mrs. Zhang",
+    text: "Delays?! Again? We cannot afford another setback on this contract!",
+    expression: "angry", // 👈 This automatically activates your blendshape loop
+    options: [
+      { text: "I take full responsibility. Here is our mitigation plan.", nextNode: "provide_results" },
+      { text: "It wasn't my fault, the API endpoint went down!", nextNode: "defensive_loop" }
+    ]
+  },
+  defensive_loop: {
+    speaker: "Mrs. Zhang",
+    text: "I do not want excuses, I want solutions! Fix this immediately.",
+    expression: "angry",
+    options: [
+      { text: "Apologies. Resetting scenario...", nextNode: "start" }
+    ]
+  }
+};
+
+let currentNodeId = "start";
+
+/* -------------------------------------------------------
+   LOAD AU TIME-SERIES DATA & GLOBAL STATE
 ------------------------------------------------------- */
 
 let animationFrames = [];
-// 1. 👉 Changed from a single reference to an array
 let morphableMeshes = []; 
 let avatarLoaded = false;
-
 let mode = "idle"; 
 
 fetch('/threejs_animation.json')
@@ -20,7 +62,7 @@ fetch('/threejs_animation.json')
   });
 
 /* -------------------------------------------------------
-   AU → ARKIT MAPPING
+   AU → ARKIT MAPPING & SETUP
 ------------------------------------------------------- */
 
 const auToArkitMapping = {
@@ -49,11 +91,6 @@ const auToArkitMapping = {
 };
 
 const EXPRESSION_GAIN = 1.25;
-
-/* -------------------------------------------------------
-   THREE.JS SCENE SETUP
-------------------------------------------------------- */
-
 const scene = new THREE.Scene();
 
 const textureLoader = new THREE.TextureLoader();
@@ -62,13 +99,9 @@ textureLoader.load('src/assets/background.png', (texture) => {
   scene.background = texture;
 });
 
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100
-);
-camera.position.set(0, 1.42, 1.5);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+// 🎥 Camera positioned looking directly at Mrs. Zhang from "Your" perspective
+camera.position.set(0, 1.42, 1.5); 
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -76,12 +109,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.85;
 document.body.appendChild(renderer.domElement);
 
-/* -------------------------------------------------------
-   LIGHTING
-------------------------------------------------------- */
-
 scene.add(new THREE.AmbientLight(0xffffff, 0.3));
-
 const keyLight = new THREE.DirectionalLight(0xfff5eb, 1.5);
 keyLight.position.set(1, 2.5, 2);
 scene.add(keyLight);
@@ -96,7 +124,6 @@ scene.add(fillLight);
 
 let mixer = null;
 let idleAction = null;
-
 const loader = new GLTFLoader();
 
 loader.load('/models/agent_animations.glb', (gltf) => {
@@ -112,94 +139,121 @@ loader.load('/models/agent_animations.glb', (gltf) => {
 
   model.traverse((child) => {
     if (child.isMesh && child.morphTargetDictionary) {
-      // 2. 👉 Push ALL valid meshes into our array
       morphableMeshes.push(child);
-      console.log("Collected morph mesh:", child.name);
     }
   });
 
   avatarLoaded = true;
+  // Start the game interface once everything is ready
+  goToDialogueNode(currentNodeId); 
 });
 
 /* -------------------------------------------------------
-   APPLY AU FRAME
+   AU ENGINE LOGIC
 ------------------------------------------------------- */
 
 function applyAUFrame(mesh, frame) {
   if (!mesh || !frame) return;
-
   for (const [auKey, weight] of Object.entries(frame)) {
     if (auKey === "video_id" || auKey === "timestamp_norm") continue;
-
     const arkitTarget = auToArkitMapping[auKey];
     if (!arkitTarget) continue;
-
     const targets = Array.isArray(arkitTarget) ? arkitTarget : [arkitTarget];
-
     for (const target of targets) {
       const index = mesh.morphTargetDictionary[target];
       if (index === undefined) continue;
-
       mesh.morphTargetInfluences[index] = Math.min(weight * EXPRESSION_GAIN, 1.0);
     }
   }
 }
 
-/* -------------------------------------------------------
-   RESET EXPRESSIONS
-------------------------------------------------------- */
-
 function resetAllFaces() {
-  // 3. 👉 Loop through all meshes to reset them
   morphableMeshes.forEach(mesh => {
-    if (mesh.morphTargetInfluences) {
-      mesh.morphTargetInfluences.fill(0);
-    }
+    if (mesh.morphTargetInfluences) mesh.morphTargetInfluences.fill(0);
   });
 }
 
 /* -------------------------------------------------------
-   UI BUTTON (ANGRY TOGGLE)
+   DYNAMIC INTERACTIVE UI SYSTEM
 ------------------------------------------------------- */
 
-const btn = document.createElement("button");
-btn.innerText = "TRIGGER ANGRY";
-btn.style.position = "absolute";
-btn.style.top = "20px";
-btn.style.left = "20px";
-btn.style.padding = "10px 16px";
-btn.style.zIndex = 1000;
-btn.style.background = "#ff4444";
-btn.style.color = "white";
-btn.style.border = "none";
-btn.style.cursor = "pointer";
+// Create UI HTML Container dynamically
+const gameUI = document.createElement("div");
+gameUI.style.position = "absolute";
+gameUI.style.bottom = "30px";
+gameUI.style.left = "50%";
+gameUI.style.transform = "translateX(-50%)";
+gameUI.style.width = "80%%";
+gameUI.style.maxWidth = "800px";
+gameUI.style.display = "flex";
+gameUI.style.flexDirection = "column";
+gameUI.style.gap = "15px";
+gameUI.style.zIndex = 1000;
+gameUI.style.fontFamily = "sans-serif";
+document.body.appendChild(gameUI);
 
-document.body.appendChild(btn);
+function goToDialogueNode(nodeId) {
+  currentNodeId = nodeId;
+  const node = dialogueTree[nodeId];
+  if (!node) return;
 
-btn.onclick = () => {
-  if (!avatarLoaded) return;
-
-  if (mode === "idle") {
-    mode = "angry";
-    btn.innerText = "BACK TO IDLE";
-    resetAllFaces();
-  } else {
-    mode = "idle";
-    btn.innerText = "TRIGGER ANGRY";
-    resetAllFaces();
-
-    if (idleAction) {
-      idleAction.play();
-      idleAction.reset();
-    }
+  // 1. Set the facial expression state
+  mode = node.expression;
+  resetAllFaces();
+  
+  if (mode === "idle" && idleAction) {
+    idleAction.play();
+    idleAction.reset();
   }
-};
+
+  // 2. Clear previous interface UI
+  gameUI.innerHTML = "";
+
+  // 3. Create Mrs. Zhang's Subtitle Box
+  const dialogueBox = document.createElement("div");
+  dialogueBox.style.background = "rgba(0, 0, 0, 0.75)";
+  dialogueBox.style.color = "#fff";
+  dialogueBox.style.padding = "20px";
+  dialogueBox.style.borderRadius = "8px";
+  dialogueBox.style.borderLeft = mode === "angry" ? "5px solid #ff4444" : "5px solid #44aaff";
+  dialogueBox.innerHTML = `<strong>${node.speaker}:</strong> <p style="margin: 5px 0 0 0; line-height: 1.4;">${node.text}</p>`;
+  gameUI.appendChild(dialogueBox);
+
+  // 4. Create "Your" Action/Choice Container
+  const choicesContainer = document.createElement("div");
+  choicesContainer.style.display = "flex";
+  choicesContainer.style.gap = "10px";
+  choicesContainer.style.justifyContent = "center";
+
+  node.options.forEach(option => {
+    const choiceBtn = document.createElement("button");
+    choiceBtn.innerText = option.text;
+    choiceBtn.style.flex = "1";
+    choiceBtn.style.padding = "12px";
+    choiceBtn.style.background = "#fff";
+    choiceBtn.style.border = "1px solid #ccc";
+    choiceBtn.style.borderRadius = "4px";
+    choiceBtn.style.cursor = "pointer";
+    choiceBtn.style.fontWeight = "bold";
+    choiceBtn.style.transition = "0.2s";
+
+    choiceBtn.onmouseenter = () => choiceBtn.style.background = "#eeeeee";
+    choiceBtn.onmouseleave = () => choiceBtn.style.background = "#ffffff";
+    
+    choiceBtn.onclick = () => {
+      goToDialogueNode(option.nextNode);
+    };
+
+    choicesContainer.appendChild(choiceBtn);
+  });
+
+  gameUI.appendChild(choicesContainer);
+}
 
 /* -------------------------------------------------------
    ANIMATION LOOP
 ------------------------------------------------------- */
 
-// 4. 👉 Swapped THREE.Clock out for native high-res timestamps to fix the deprecation warning
 let lastTime = performance.now();
 let totalElapsedTime = 0;
 
@@ -207,7 +261,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   const now = performance.now();
-  const delta = (now - lastTime) / 1000; // seconds
+  const delta = (now - lastTime) / 1000; 
   lastTime = now;
 
   if (!avatarLoaded) {
@@ -217,10 +271,10 @@ function animate() {
 
   totalElapsedTime += delta;
 
-  // 1. Let the base mixer run first (updates body joints)
+  // Update underlying skeletal animations
   if (mixer) mixer.update(delta);
 
-  // 2. Layer custom animations on top second
+  // Apply custom expression maps if Mrs. Zhang is simulated as angry
   if (mode === "angry" && animationFrames.length > 0 && morphableMeshes.length > 0) {
     const loopDuration = 1.0; 
     const currentTime = (totalElapsedTime % loopDuration); 
@@ -230,7 +284,6 @@ function animate() {
       targetFrame = animationFrames[animationFrames.length - 1];
     }
     
-    // 5. 👉 Apply the frame data to EVERY collected mesh
     morphableMeshes.forEach(mesh => {
       applyAUFrame(mesh, targetFrame);
     });
