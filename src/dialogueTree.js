@@ -134,7 +134,7 @@ const dialogueTree = {
     text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\n\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
     expression: "neutral",
     options: [
-      { text: "End Scenario", nextNode: "scenario_end" }
+      { text: "Replay Scenario", nextNode: "bill_trigger" }
     ]
   },
 
@@ -163,7 +163,7 @@ const dialogueTree = {
     text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\n\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. A better option would be offering, that you pay for dinner the next time signaling the willingness to return the favor in the future.",
     expression: "neutral",
     options: [
-      { text: "End Scenario", nextNode: "scenario_end" }
+      { text: "Replay Scenario", nextNode: "bill_trigger" }
     ]
   },
   
@@ -215,7 +215,7 @@ const dialogueTree = {
   center_g1_silence_feedback: {
     speaker: "Learning Feedback",
     text: "You correctly offered to pay once, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
   center_g1_mitigate: {
@@ -234,7 +234,7 @@ const dialogueTree = {
   center_g1_mitigate_feedback: {
     speaker: "Learning Feedback",
     text: "You correctly offered to pay once, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
 
@@ -281,7 +281,7 @@ const dialogueTree = {
   center_g2_silence_feedback: {
     speaker: "Learning Feedback",
     text: "You correctly offered to pay twice, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
   center_g2_mitigate: {
@@ -300,7 +300,7 @@ const dialogueTree = {
   center_g2_mitigate_feedback: {
     speaker: "Learning Feedback",
     text: "You correctly offered to pay twice, showing appreciation for your host's generosity. In many Chinese business settings, however, it is common to continue this polite exchange for three rounds before accepting the invitation. However, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. Reciprocity in Chinese culture is often maintained over time rather than through an immediate equal exchange. Saying 'Next time, dinner is on me.' acknowledges the host's generosity while signaling your willingness to return the favor in the future.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
 
@@ -345,7 +345,7 @@ const dialogueTree = {
   center_g3_feedback: {
     speaker: "Learning Feedback",
     text: "The interaction follows the expected social ritual. You handled this situation appropriately according to common Chinese business etiquette.\n\nAlthough Mrs. Zhang intended to pay from the beginning, it is customary to politely refuse the offer thrice before finally accepting. The purpose of this exchange is not to determine who actually pays, but to demonstrate sincerity, respect, and appreciation for the other person's generosity. By offering to pay multiple times, you showed that you did not simply expect your host to cover the bill. By accepting the invitation after Mrs. Zhang continued to insist, you also respected her role as the host and her higher hierarchical position.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
 
@@ -390,7 +390,7 @@ const dialogueTree = {
   center_overdone_give_in_feedback: {
     speaker: "Learning Feedback",
     text: "You showed respect by repeatedly offering to pay the bill, which is an important part of Chinese dining etiquette. However, continuing to insist after three polite exchanges can eventually become counterproductive.\n\nIn many Chinese social and business settings, the host is expected to insist on paying several times as part of a ritual of politeness. Once this ritual has been completed, it is generally appropriate to graciously accept the invitation. Persisting beyond this point may unintentionally communicate that you do not trust your host to fulfill their role, or that you doubt their ability to treat you. This can place unnecessary pressure on the host and make the situation uncomfortable.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
   // Sub-Path: The 5th offer where you break the ritual and force payment
@@ -424,7 +424,7 @@ const dialogueTree = {
   center_round5_feedback: {
     speaker: "Learning Feedback",
     text: "You showed generosity by insisting on paying the bill. However, continuing to insist after the host has repeatedly offered to pay can become inappropriate.\n\nIn Chinese culture, offering to pay the bill several times is a ritual of politeness. Once the host continues to insist after several exchanges, it is generally expected that the guest will graciously accept the invitation. By insisting a fifth time and ultimately taking over the bill, you interrupted this social ritual.\n\nYour actions may unintentionally suggest that you do not trust your host to fulfill their role or that you believe they are unable to afford the invitation. This can cause the host to lose face and may leave them feeling embarrassed or frustrated, even if they remain polite on the surface.\n\nA more culturally appropriate response would have been to accept the invitation after the ritual exchange and thank your host sincerely. You can always reciprocate by inviting them the next time you meet.",
-    options: [{ text: "End Scenario", nextNode: "scenario_end" }]
+    options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
   // Right Branch
@@ -490,7 +490,7 @@ const dialogueTree = {
     speaker: "Learning Feedback",
     text: "Although suggesting to split the bill may be considered polite and fair in many Western cultures, it can be interpreted quite differently in this situation.\n\nMrs. Zhang explicitly invited you to dinner and, as the host and senior colleague, has taken responsibility for paying the bill. In many Chinese social and professional settings, paying for the meal is more than a financial transaction—it is a symbolic act of hospitality, generosity, and respect. By inviting someone, the host demonstrates care for the relationship and fulfills an important social role.\n\nSuggesting to split the bill interrupts this expected interaction. Instead of accepting the host's gesture, it may unintentionally signal that you are declining her hospitality or questioning her role as the host. It can also imply that you feel uncomfortable accepting the invitation or that you wish to avoid the social obligation created by being treated.\n\nFortunately, you quickly recognized the situation and accepted Mrs. Zhang's invitation with gratitude. By expressing sincere appreciation, you restored the expected social interaction and allowed Mrs. Zhang to fulfill her role as the host.",
     options: [
-      { text: "End Scenario", nextNode: "scenario_end" }
+      { text: "Replay Scenario", nextNode: "bill_trigger" }
     ]
   },
 
@@ -546,7 +546,7 @@ const dialogueTree = {
     speaker: "Learning Feedback",
     text: "Although suggesting to split the bill may be considered polite and fair in many Western cultures, it can be interpreted quite differently in this situation.\n\nMrs. Zhang explicitly invited you to dinner and, as the host and senior colleague, has taken responsibility for paying the bill. In many Chinese social and professional settings, paying for the meal is more than a financial transaction—it is a symbolic act of hospitality, generosity, and respect. By inviting someone, the host demonstrates care for the relationship and fulfills an important social role.\n\nSuggesting to split the bill interrupts this expected interaction. Instead of accepting the host's gesture, it may unintentionally signal that you are declining her hospitality or questioning her role as the host. It can also imply that you feel uncomfortable accepting the invitation or that you wish to avoid the social obligation created by being treated.\n\nYou successfully repaired the interaction by offering to invite Mrs. Zhang next time. In many Chinese social and business settings, reciprocity is not expected to occur immediately. Instead of balancing the cost of a single meal, relationships are often strengthened through repeated acts of generosity over time. By offering to host the next dinner, you acknowledged Mrs. Zhang's hospitality while expressing your willingness to return the favor in the future.",
     options: [
-      { text: "End Scenario", nextNode: "scenario_end" }
+      { text: "Replay Scenario", nextNode: "bill_trigger" }
     ]
   },
 
@@ -573,7 +573,7 @@ const dialogueTree = {
     speaker: "Learning Feedback",
     text: "Although suggesting to split the bill may be considered polite and fair in many Western cultures, it can be interpreted quite differently in this situation.\n\nMrs. Zhang explicitly invited you to dinner and, as the host and senior colleague, has taken responsibility for paying the bill. In many Chinese social and professional settings, paying for the meal is more than a financial transaction—it is a symbolic act of hospitality, generosity, and respect. By inviting someone, the host demonstrates care for the relationship and fulfills an important social role.\n\nSuggesting to split the bill interrupts this expected interaction. Instead of accepting the host's gesture, it may unintentionally signal that you are declining her hospitality or questioning her role as the host. It can also imply that you feel uncomfortable accepting the invitation or that you wish to avoid the social obligation created by being treated.",
     options: [
-      { text: "End Scenario", nextNode: "scenario_end" }
+      { text: "Replay Scenario", nextNode: "bill_trigger" }
     ]
   }
 };

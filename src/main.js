@@ -101,8 +101,16 @@ camera.position.set(0, 1.6, 0.8);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.85;
+renderer.domElement.style.position = 'fixed';
+renderer.domElement.style.top = '0';
+renderer.domElement.style.left = '0';
+renderer.domElement.style.width = '100%';
+renderer.domElement.style.height = '100%';
+renderer.domElement.style.margin = '0';
+renderer.domElement.style.padding = '0';
 document.body.appendChild(renderer.domElement);
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.3));
@@ -179,6 +187,8 @@ gameUI.style.left = "50%";
 gameUI.style.transform = "translateX(-50%)";
 gameUI.style.width = "80%";
 gameUI.style.maxWidth = "800px";
+gameUI.style.maxHeight = "40vh";
+gameUI.style.overflowY = "auto";
 gameUI.style.display = "flex";
 gameUI.style.flexDirection = "column";
 gameUI.style.gap = "15px";
@@ -302,4 +312,6 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.domElement.style.width = '100%';
+  renderer.domElement.style.height = '100%';
 });

@@ -50,8 +50,44 @@
   }
 }
 
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+  position: relative;
+}
+
+#app {
+  display: none !important;
+}
+
+canvas {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  outline: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 h1,
