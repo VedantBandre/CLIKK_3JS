@@ -210,7 +210,7 @@ const dialogueTree = {
       zh: "张太太温暖而快乐地微笑着。",
       de: "Frau Zhang lächelt warm und glücklich."
     },
-    expression: "happy", // EXPRESS WARM SMILE
+    expression: "smile_polite", // EXPRESS WARM SMILE
     options: [
       { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_join_next" }
     ]
@@ -227,7 +227,7 @@ const dialogueTree = {
       zh: "你太客气了。我很乐意下次和你一起吃饭。",
       de: "Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "happy",
+    expression: "smile_polite",
     options: [
       { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "left_branch_feedback_good" }
     ]
@@ -427,7 +427,7 @@ const dialogueTree = {
       zh: "张太太温暖而快乐地微笑着。\n\n[张太太]：你太客气了。我很乐意下次和你一起吃饭。",
       de: "Frau Zhang lächelt warm und glücklich. \n\n[Frau Zhang]: Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "happy", // EXPRESS WARM SMILE
+    expression: "smile_polite", // EXPRESS WARM SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g1_mitigate_feedback" }]
   },
 
@@ -565,7 +565,7 @@ const dialogueTree = {
       zh: "张太太温暖而快乐地微笑着。\n\n[张太太]：你太客气了。我很乐意下次和你一起吃饭。",
       de: "Frau Zhang lächelt warm und glücklich. \n\n[Frau Zhang]: Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "happy", // EXPRESS WARM & HAPPY SMILE
+    expression: "smile_polite", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g2_mitigate_feedback" }]
   },
 
@@ -643,7 +643,7 @@ const dialogueTree = {
       zh: "不客气。我很高兴我们能一起吃饭。",
       de: "Sehr gerne. Ich freue mich, dass wir zusammen essen konnten."
     },
-    expression: "happy",
+    expression: "smile_polite",
     options: [{ text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "center_g3_outcome" }]
   },
 
@@ -658,7 +658,7 @@ const dialogueTree = {
       zh: "张太太付了账，温暖地微笑着。她很快乐。",
       de: "Frau Zhang bezahlt die Rechnung und lächelt warm. Sie ist glücklich."
     },
-    expression: "happy", // EXPRESS WARM & HAPPY SMILE
+    expression: "smile_polite", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g3_feedback" }]
   },
 
@@ -944,7 +944,7 @@ const dialogueTree = {
       zh: "请别担心。我很高兴我们能一起吃饭。",
       de: "Bitte machen Sie sich keine Sorgen. Ich freue mich, dass wir zusammen essen konnten."
     },
-    expression: "happy",
+    expression: "smile_polite",
     options: [
       { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "right_backtrack_feedback" }
     ]
