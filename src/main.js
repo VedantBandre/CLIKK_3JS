@@ -7,6 +7,12 @@ import auToArkitMapping from './auToArkitMapping.js';
 let currentNodeId = "start";
 
 /* -------------------------------------------------------
+   LANGUAGE STATE
+------------------------------------------------------- */
+
+let currentLanguage = "en"; // Options: "en", "zh", "de"
+
+/* -------------------------------------------------------
    LOAD AU TIME-SERIES DATA & GLOBAL STATE
 ------------------------------------------------------- */
 
@@ -185,6 +191,31 @@ function resetAllFaces() {
    DYNAMIC INTERACTIVE UI SYSTEM
 ------------------------------------------------------- */
 
+// Language Toggle Button
+const langToggle = document.createElement("button");
+langToggle.innerText = "EN";
+langToggle.style.position = "absolute";
+langToggle.style.top = "20px";
+langToggle.style.right = "20px";
+langToggle.style.padding = "10px 20px";
+langToggle.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+langToggle.style.color = "#fff";
+langToggle.style.border = "1px solid #fff";
+langToggle.style.borderRadius = "5px";
+langToggle.style.cursor = "pointer";
+langToggle.style.zIndex = 2000;
+langToggle.style.fontFamily = "sans-serif";
+langToggle.style.fontWeight = "600";
+langToggle.onclick = () => {
+  const languages = ["en", "zh", "de"];
+  const currentIndex = languages.indexOf(currentLanguage);
+  currentLanguage = languages[(currentIndex + 1) % languages.length];
+  langToggle.innerText = currentLanguage.toUpperCase();
+  // Refresh current dialogue node with new language
+  goToDialogueNode(currentNodeId);
+};
+document.body.appendChild(langToggle);
+
 const gameUI = document.createElement("div");
 gameUI.style.position = "absolute";
 gameUI.style.bottom = "30px";
@@ -220,19 +251,29 @@ function goToDialogueNode(nodeId) {
   dialogueBox.style.color = "#fff";
   dialogueBox.style.padding = "20px";
   dialogueBox.style.borderRadius = "8px";
+  
+  // Get speaker based on current language (handle both object and string formats)
+  const nodeSpeaker = typeof node.speaker === 'object' ? node.speaker[currentLanguage] || node.speaker.en : node.speaker;
+  
+  // Update border color logic to handle multi-language speaker
   let borderColor = "#44aaff";
-  if (node.speaker === "Narrator") {
+  const speakerKey = typeof node.speaker === 'object' ? node.speaker.en : node.speaker;
+  if (speakerKey === "Narrator") {
     borderColor = "#888888";
-  } else if (node.speaker === "Mrs. Zhang") {
+  } else if (speakerKey === "Mrs. Zhang") {
     borderColor = mode === "angry" ? "#ff4444" : "#44aaff";
-  } else if (node.speaker === "Learning Feedback") {
+  } else if (speakerKey === "Learning Feedback") {
     borderColor = "#ffa500";
-  } else if (node.speaker === "You") {
+  } else if (speakerKey === "You") {
     borderColor = "#4caf50";
   }
   dialogueBox.style.borderLeft = `5px solid ${borderColor}`;
-  const formattedText = node.text.replace(/\n/g, '<br>');
-  dialogueBox.innerHTML = `<strong>${node.speaker}:</strong> <p style="margin: 5px 0 0 0; line-height: 1.4; white-space: pre-wrap;">${formattedText}</p>`;
+  
+  // Get text based on current language (handle both object and string formats)
+  const nodeText = typeof node.text === 'object' ? node.text[currentLanguage] || node.text.en : node.text;
+  const formattedText = nodeText.replace(/\n/g, '<br>');
+  
+  dialogueBox.innerHTML = `<strong>${nodeSpeaker}:</strong> <p style="margin: 5px 0 0 0; line-height: 1.4; white-space: pre-wrap;">${formattedText}</p>`;
   gameUI.appendChild(dialogueBox);
 
   // 4. Create "Your" Action/Choice Container
@@ -243,7 +284,9 @@ function goToDialogueNode(nodeId) {
 
   node.options.forEach(option => {
     const choiceBtn = document.createElement("button");
-    choiceBtn.innerText = option.text;
+    // Get option text based on current language (handle both object and string formats)
+    const optionText = typeof option.text === 'object' ? option.text[currentLanguage] || option.text.en : option.text;
+    choiceBtn.innerText = optionText;
     choiceBtn.style.flex = "1";
     choiceBtn.style.padding = "12px";
     choiceBtn.style.background = "#fff";
