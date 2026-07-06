@@ -191,30 +191,61 @@ function resetAllFaces() {
    DYNAMIC INTERACTIVE UI SYSTEM
 ------------------------------------------------------- */
 
-// Language Toggle Button
-const langToggle = document.createElement("button");
-langToggle.innerText = "EN";
-langToggle.style.position = "absolute";
-langToggle.style.top = "20px";
-langToggle.style.right = "20px";
-langToggle.style.padding = "10px 20px";
-langToggle.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-langToggle.style.color = "#fff";
-langToggle.style.border = "1px solid #fff";
-langToggle.style.borderRadius = "5px";
-langToggle.style.cursor = "pointer";
-langToggle.style.zIndex = 2000;
-langToggle.style.fontFamily = "sans-serif";
-langToggle.style.fontWeight = "600";
-langToggle.onclick = () => {
-  const languages = ["en", "zh", "de"];
-  const currentIndex = languages.indexOf(currentLanguage);
-  currentLanguage = languages[(currentIndex + 1) % languages.length];
-  langToggle.innerText = currentLanguage.toUpperCase();
-  // Refresh current dialogue node with new language
-  goToDialogueNode(currentNodeId);
-};
-document.body.appendChild(langToggle);
+// Language Toggle - Apple-style segmented control
+const langToggleContainer = document.createElement("div");
+langToggleContainer.style.position = "absolute";
+langToggleContainer.style.top = "20px";
+langToggleContainer.style.right = "20px";
+langToggleContainer.style.display = "flex";
+langToggleContainer.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+langToggleContainer.style.borderRadius = "8px";
+langToggleContainer.style.padding = "4px";
+langToggleContainer.style.border = "1px solid rgba(255, 255, 255, 0.3)";
+langToggleContainer.style.zIndex = "2000";
+
+const languages = ["en", "zh", "de"];
+const langLabels = { en: "EN", zh: "中文", de: "DE" };
+
+languages.forEach((lang, index) => {
+  const langBtn = document.createElement("button");
+  langBtn.innerText = langLabels[lang];
+  langBtn.style.padding = "8px 16px";
+  langBtn.style.backgroundColor = lang === currentLanguage ? "rgba(255, 255, 255, 0.3)" : "transparent";
+  langBtn.style.color = "#fff";
+  langBtn.style.border = "none";
+  langBtn.style.borderRadius = "6px";
+  langBtn.style.cursor = "pointer";
+  langBtn.style.fontFamily = "sans-serif";
+  langBtn.style.fontSize = "14px";
+  langBtn.style.fontWeight = "500";
+  langBtn.style.transition = "background-color 0.2s ease";
+  
+  langBtn.onmouseenter = () => {
+    if (lang !== currentLanguage) {
+      langBtn.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+    }
+  };
+  
+  langBtn.onmouseleave = () => {
+    if (lang !== currentLanguage) {
+      langBtn.style.backgroundColor = "transparent";
+    }
+  };
+  
+  langBtn.onclick = () => {
+    currentLanguage = lang;
+    // Update button states
+    Array.from(langToggleContainer.children).forEach((btn, i) => {
+      btn.style.backgroundColor = languages[i] === currentLanguage ? "rgba(255, 255, 255, 0.3)" : "transparent";
+    });
+    // Refresh current dialogue node with new language
+    goToDialogueNode(currentNodeId);
+  };
+  
+  langToggleContainer.appendChild(langBtn);
+});
+
+document.body.appendChild(langToggleContainer);
 
 const gameUI = document.createElement("div");
 gameUI.style.position = "absolute";
