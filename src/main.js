@@ -23,13 +23,17 @@ let clipsLoaded = false; // Track when clips are ready
 
 const emotionFiles = {
   angry: 'trajectory/angry.json',
+  ashamed: 'trajectory/ashamed.json',
   disgusted: 'trajectory/disgusted.json',
   fearful: 'trajectory/fearful.json',
   happy: 'trajectory/happy.json',
   neutral: 'trajectory/neutral.json',
   sad: 'trajectory/sad.json',
   surprised: 'trajectory/surprised.json',
-  smile_polite: 'trajectory/smile_polite.json'
+  smile_polite: 'trajectory/smile_polite.json',
+  smile_polite_slight_confusion: 'trajectory/smile_polite_slight_confusion.json',
+  smile_polite_moderate_confusion: 'trajectory/smile_polite_moderate_confusion.json',
+  smile_slight_ashamed: 'trajectory/smile_slight_ashamed.json'
 };
 
 Promise.all(

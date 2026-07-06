@@ -160,7 +160,7 @@ const dialogueTree = {
 
   left_branch_feedback_bad: {
     speaker: "Learning Feedback",
-    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. A better option would be offering, that you pay for dinner the next time signaling the willingness to return the favor in the future.",
+    text: "In Chinese business culture, it is common to briefly offer to pay the bill before accepting the host's invitation. This ritual demonstrates politeness and respect rather than a genuine expectation of paying.\n\nAccepting the invitation immediately is generally not considered rude, especially when the host has explicitly invited you.\nHowever, it is considered good etiquette to express reciprocity by offering to host the next meal or meeting. A better option would be offering, that you pay for dinner the next time signaling the willingness to return the favor in the future.",
     expression: "neutral",
     options: [
       { text: "Replay Scenario", nextNode: "bill_trigger" }
@@ -199,7 +199,7 @@ const dialogueTree = {
   center_g1_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be moderately confused.",
-    expression: "smile_polite", // EXPRESS POLITE SMILE & MODERATE CONFUSION
+    expression: "smile_polite_moderate_confusion", // EXPRESS POLITE SMILE & MODERATE CONFUSION
     options: [
       { text: "(Say nothing)", nextNode: "center_g1_silence" },
       { text: "Next time, I would like to invite you", nextNode: "center_g1_mitigate" }
@@ -265,7 +265,7 @@ const dialogueTree = {
   center_g2_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be slightly confused.",
-    expression: "smile_polite", // EXPRESS POLITE SMILE & SLIGHT CONFUSION
+    expression: "smile_polite_slight_confusion", // EXPRESS POLITE SMILE & SLIGHT CONFUSION
     options: [
       { text: "Says nothing.", nextNode: "center_g2_silence" },
       { text: "Next time, I would like to invite you", nextNode: "center_g2_mitigate" }
@@ -366,7 +366,7 @@ const dialogueTree = {
   center_round4_strained_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang only smiles lightly. But she seems to be ashamed.",
-    expression: "surprised", // EXPRESS SLIGHT SMILE AND ASHAMED
+    expression: "smile_slight_ashamed", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [
       { text: "Thank you very much.", nextNode: "center_overdone_give_in" },
       { text: "No, I couldn't possibly.", nextNode: "center_round5_break" }
@@ -383,13 +383,13 @@ const dialogueTree = {
   center_overdone_give_in_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles politely and pays. But she seems to be slightly ashamed",
-    expression: "surprised", // EXPRESS SLIGHT SMILE AND ASHAMED
+    expression: "smile_slight_ashamed", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [{ text: "Show Feedback", nextNode: "center_overdone_give_in_feedback" }]
   },
 
   center_overdone_give_in_feedback: {
     speaker: "Learning Feedback",
-    text: "You showed respect by repeatedly offering to pay the bill, which is an important part of Chinese dining etiquette. However, continuing to insist after three polite exchanges can eventually become counterproductive.\n\nIn many Chinese social and business settings, the host is expected to insist on paying several times as part of a ritual of politeness.\nOnce this ritual has been completed, it is generally appropriate to graciously accept the invitation. Persisting beyond this point may unintentionally communicate that you do not trust your host to fulfill their role, or that you doubt their ability to treat you.\nThis can place unnecessary pressure on the host and make the situation uncomfortable.",
+    text: "You showed respect by repeatedly offering to pay the bill, which is an important part of Chinese dining etiquette. However, continuing to insist after three polite exchanges can eventually become counterproductive.\n\nIn many Chinese social and business settings, the host is expected to insist on paying several times as part of a ritual of politeness. Once this ritual has been completed, it is generally appropriate to graciously accept the invitation. Persisting beyond this point may unintentionally communicate that you do not trust your host to fulfill their role, or that you doubt their ability to treat you. This can place unnecessary pressure on the host and make the situation uncomfortable.",
     options: [{ text: "Replay Scenario", nextNode: "bill_trigger" }]
   },
 
@@ -403,7 +403,7 @@ const dialogueTree = {
   center_round5_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang stops smiling and she seems to be ashamed.",
-    expression: "surprised", // EXPRESS ASHAMED
+    expression: "ashamed", // EXPRESS ASHAMED
     options: [{ text: "Continue", nextNode: "center_round5_take_bill" }]
   },
 
@@ -471,7 +471,7 @@ const dialogueTree = {
   right_backtrack_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang smiles again and pays the bill.",
-    expression: "happy", // EXPRESS SMILE
+    expression: "smile_polite", // EXPRESS SMILE
     options: [
       { text: "Continue", nextNode: "right_backtrack_statement" }
     ]
@@ -536,7 +536,7 @@ const dialogueTree = {
   right_mitigate_reaction: {
     speaker: "Narrator",
     text: "Mrs. Zhang slightly smiles again and pays the bill.",
-    expression: "happy", // EXPRESS SLIGHT SMILE
+    expression: "smile_polite", // EXPRESS SLIGHT SMILE
     options: [
       { text: "Show Feedback", nextNode: "right_mitigate_feedback" }
     ]
