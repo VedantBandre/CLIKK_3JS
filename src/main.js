@@ -102,7 +102,7 @@ function getClipDuration(clip) {
 
 
 const textureLoader = new THREE.TextureLoader();
-textureLoader.load('src/assets/background.png', (texture) => {
+textureLoader.load('/background.png', (texture) => {
   texture.colorSpace = THREE.SRGBColorSpace;
   scene.background = texture;
 });
