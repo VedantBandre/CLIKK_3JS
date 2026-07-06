@@ -100,12 +100,19 @@ function getClipDuration(clip) {
   return clip?.length ? clip[clip.length - 1].timestamp_norm : 1.0;
 }
 
-
 const textureLoader = new THREE.TextureLoader();
-textureLoader.load('/background.png', (texture) => {
+
+// This ensures Vite prefixes the correct root path in production
+textureLoader.load(`${import.meta.env.BASE_URL}background.png`, (texture) => {
   texture.colorSpace = THREE.SRGBColorSpace;
   scene.background = texture;
 });
+
+// const textureLoader = new THREE.TextureLoader();
+// textureLoader.load('/background.png', (texture) => {
+//   texture.colorSpace = THREE.SRGBColorSpace;
+//   scene.background = texture;
+// });
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 1.6, 0.8); 
