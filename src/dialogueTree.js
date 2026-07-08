@@ -4,24 +4,24 @@
 
 const dialogueTree = {
   // Introduction context node
-  start: {
-    speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
-    },
-    text: {
-      en: "You have been invited to dinner by your Chinese colleague, Mrs. Zhang, who holds a higher position in the company than you. Throughout the meal, the conversation has been pleasant and everything has gone smoothly. You have enjoyed the food, exchanged ideas about work and daily life, and the dinner is now coming to an end.",
-      zh: "你被你的中国同事张太太邀请共进晚餐，她在公司中的职位比你高。在整个用餐过程中，谈话一直很愉快，一切都很顺利。你享受了美食，交流了关于工作和日常生活的想法，晚餐即将结束。",
-      de: "Sie wurden zum Abendessen von Ihrer chinesischen Kollegin Frau Zhang eingeladen, die eine höhere Position in der Firma innehat als Sie. Während des Essens war das Gespräch angenehm und alles verlief reibungslos. Sie haben das Essen genossen, sich über Arbeit und das tägliche Leben ausgetauscht, und das Abendessen neigt sich dem Ende zu."
-    },
-    expression: "neutral",
-    options: [
-      { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "intro_01" }
-    ]
-  },
+  // start: {
+  //   speaker: {
+  //     en: "Narrator",
+  //     zh: "旁白",
+  //     de: "Erzähler"
+  //   },
+  //   text: {
+  //     en: "You have been invited to dinner by your Chinese colleague, Mrs. Zhang, who holds a higher position in the company than you. Throughout the meal, the conversation has been pleasant and everything has gone smoothly. You have enjoyed the food, exchanged ideas about work and daily life, and the dinner is now coming to an end.",
+  //     zh: "你被你的中国同事张太太邀请共进晚餐，她在公司中的职位比你高。在整个用餐过程中，谈话一直很愉快，一切都很顺利。你享受了美食，交流了关于工作和日常生活的想法，晚餐即将结束。",
+  //     de: "Sie wurden zum Abendessen von Ihrer chinesischen Kollegin Frau Zhang eingeladen, die eine höhere Position in der Firma innehat als Sie. Während des Essens war das Gespräch angenehm und alles verlief reibungslos. Sie haben das Essen genossen, sich über Arbeit und das tägliche Leben ausgetauscht, und das Abendessen neigt sich dem Ende zu."
+  //   },
+  //   expression: "neutral",
+  //   options: [
+  //     { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "intro_01" }
+  //   ]
+  // },
 
-  intro_01: {
+  start: {
     speaker: {
       en: "Mrs. Zhang",
       zh: "张太太",
@@ -138,42 +138,45 @@ const dialogueTree = {
       zh: "非常感谢",
       de: "Vielen Dank"
     },
-    expression: "neutral", 
-    options: [
-      { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_pays" }
-    ]
-  },
-  
-
-  left_branch_pays: {
-    speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
-    },
-    text: {
-      en: "Mrs. Zhang smiles politely and pays the bill.",
-      zh: "张太太礼貌地微笑着付了账。",
-      de: "Frau Zhang lächelt höflich und bezahlt die Rechnung."
-    },
     expression: "smile_polite", // EXPRESS POLITE SMILE
     options: [
       { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_obligation_break" }
     ]
   },
+  
+
+  // left_branch_pays: {
+  //   speaker: {
+  //     en: "Narrator",
+  //     zh: "旁白",
+  //     de: "Erzähler"
+  //   },
+  //   text: {
+  //     en: "Mrs. Zhang smiles politely and pays the bill.",
+  //     zh: "张太太礼貌地微笑着付了账。",
+  //     de: "Frau Zhang lächelt höflich und bezahlt die Rechnung."
+  //   },
+  //   expression: "smile_polite", // EXPRESS POLITE SMILE
+  //   options: [
+  //     { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_obligation_break" }
+  //   ]
+  // },
 
   left_branch_obligation_break: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "[A slight social obligation break]\nNormally offering to pay the bill is a ritual and shows gratitude. Her smile becomes slightly more reserved, and she appears momentarily surprised that you accepted immediately without first offering to pay. This is a subtle social obligation break rather than a serious mistake.",
-      zh: "[轻微的社会义务违背]\n通常主动提出付账是一种仪式，表示感激。她的微笑变得稍微有些保留，她似乎对你没有先主动提出付账就立即接受感到有些惊讶。这是一种微妙的社会义务违背，而不是严重的错误。",
-      de: "[Eine leichte Verletzung der sozialen Verpflichtung]\nNormalerweise ist das Angebot, die Rechnung zu bezahlen, ein Ritual und zeigt Dankbarkeit. Ihr Lächeln wird etwas zurückhaltender, und sie scheint kurzzeitig überrascht, dass Sie sofort akzeptiert haben, ohne zuerst anzubieten, zu bezahlen. Dies ist eine subtile Verletzung der sozialen Verpflichtung und kein ernster Fehler."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "[A slight social obligation break]\nNormally offering to pay the bill is a ritual and shows gratitude. Her smile becomes slightly more reserved, and she appears momentarily surprised that you accepted immediately without first offering to pay. This is a subtle social obligation break rather than a serious mistake.",
+      // zh: "[轻微的社会义务违背]\n通常主动提出付账是一种仪式，表示感激。她的微笑变得稍微有些保留，她似乎对你没有先主动提出付账就立即接受感到有些惊讶。这是一种微妙的社会义务违背，而不是严重的错误。",
+      // de: "[Eine leichte Verletzung der sozialen Verpflichtung]\nNormalerweise ist das Angebot, die Rechnung zu bezahlen, ein Ritual und zeigt Dankbarkeit. Ihr Lächeln wird etwas zurückhaltender, und sie scheint kurzzeitig überrascht, dass Sie sofort akzeptiert haben, ohne zuerst anzubieten, zu bezahlen. Dies ist eine subtile Verletzung der sozialen Verpflichtung und kein ernster Fehler."
     },
-    expression: "surprised", // Passing the subtle expression change to the 3D character
+    expression: "surprised", // FIX
     options: [
       { text: { en: "Thank you. Next time, dinner is on me.", zh: "谢谢。下次我请客。", de: "Danke. Beim nächsten Mal lade ich Sie zum Abendessen ein." }, nextNode: "left_branch_mitigated" }, // Option 1a
       { text: { en: "Thank you again.", zh: "再次感谢。", de: "Nochmals danke." }, nextNode: "left_branch_failed" } // Option 1b
@@ -193,28 +196,28 @@ const dialogueTree = {
       zh: "谢谢。下次我请客。",
       de: "Danke. Beim nächsten Mal lade ich Sie zum Abendessen ein."
     },
-    expression: "neutral",
-    options: [
-      { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_warm_smile" }
-    ]
-  },
-
-  left_branch_warm_smile: {
-    speaker: {
-      en: "Mrs. Zhang",
-      zh: "张太太",
-      de: "Frau Zhang"
-    },
-    text: {
-      en: "Mrs. Zhang smiles warmly and happy.",
-      zh: "张太太温暖而快乐地微笑着。",
-      de: "Frau Zhang lächelt warm und glücklich."
-    },
-    expression: "polite_smile", // EXPRESS WARM SMILE
+    expression: "smile_polite",
     options: [
       { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_join_next" }
     ]
   },
+
+  // left_branch_warm_smile: {
+  //   speaker: {
+  //     en: "Mrs. Zhang",
+  //     zh: "张太太",
+  //     de: "Frau Zhang"
+  //   },
+  //   text: {
+  //     en: "Mrs. Zhang smiles warmly and happy.",
+  //     zh: "张太太温暖而快乐地微笑着。",
+  //     de: "Frau Zhang lächelt warm und glücklich."
+  //   },
+  //   expression: "smile_polite", // EXPRESS WARM SMILE
+  //   options: [
+  //     { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_join_next" }
+  //   ]
+  // },
 
   left_branch_join_next: {
     speaker: {
@@ -227,7 +230,7 @@ const dialogueTree = {
       zh: "你太客气了。我很乐意下次和你一起吃饭。",
       de: "Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "polite_smile",
+    expression: "smile_polite",
     options: [
       { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "left_branch_feedback_good" }
     ]
@@ -263,28 +266,28 @@ const dialogueTree = {
       zh: "再次感谢。",
       de: "Nochmals danke."
     },
-    expression: "neutral",
+    expression: "smile_polite", // EXPRESS POLITE SMILE
     options: [
-      { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_abrupt_end" }
+      { text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "left_branch_feedback_bad" }
     ]
   },
 
-  left_branch_abrupt_end: {
-    speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
-    },
-    text: {
-      en: "Mrs. Zhang still smiles politely but ends the conversation immediately.",
-      zh: "张太太仍然礼貌地微笑着，但立即结束了谈话。",
-      de: "Frau Zhang lächelt immer noch höflich, beendet das Gespräch aber sofort."
-    },
-    expression: "smile_polite", // EXPRESS POLITE SMILE
-    options: [
-      { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "left_branch_feedback_bad" }
-    ]
-  },
+  // left_branch_abrupt_end: {
+  //   speaker: {
+  //     en: "Narrator",
+  //     zh: "旁白",
+  //     de: "Erzähler"
+  //   },
+  //   text: {
+  //     en: "Mrs. Zhang still smiles politely but ends the conversation immediately.",
+  //     zh: "张太太仍然礼貌地微笑着，但立即结束了谈话。",
+  //     de: "Frau Zhang lächelt immer noch höflich, beendet das Gespräch aber sofort."
+  //   },
+  //   expression: "smile_polite", 
+  //   options: [
+  //     { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "left_branch_feedback_bad" }
+  //   ]
+  // },
 
   left_branch_feedback_bad: {
     speaker: {
@@ -358,14 +361,17 @@ const dialogueTree = {
 
   center_g1_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang smiles politely and pays. But she seems to be moderately confused.",
-      zh: "张太太礼貌地微笑着付了账。但她似乎有些困惑。",
-      de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint moderat verwirrt zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang smiles politely and pays. But she seems to be moderately confused.",
+      // zh: "张太太礼貌地微笑着付了账。但她似乎有些困惑。",
+      // de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint moderat verwirrt zu sein."
     },
     expression: "smile_polite_moderate_confusion", // EXPRESS POLITE SMILE & MODERATE CONFUSION
     options: [
@@ -418,16 +424,16 @@ const dialogueTree = {
 
   center_g1_mitigate_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang smiles warmly and happy. \n\n[Mrs. Zhang]: That is very kind of you. I would be happy to join you next time.",
-      zh: "张太太温暖而快乐地微笑着。\n\n[张太太]：你太客气了。我很乐意下次和你一起吃饭。",
-      de: "Frau Zhang lächelt warm und glücklich. \n\n[Frau Zhang]: Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
+      en: "That is very kind of you. I would be happy to join you next time.",
+      zh: "你太客气了。我很乐意下次和你一起吃饭。",
+      de: "Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "polite_smile", // EXPRESS WARM SMILE
+    expression: "smile_polite", // EXPRESS WARM SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g1_mitigate_feedback" }]
   },
 
@@ -496,14 +502,17 @@ const dialogueTree = {
 
   center_g2_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang smiles politely and pays. But she seems to be slightly confused.",
-      zh: "张太太礼貌地微笑着付了账。但她似乎有些困惑。",
-      de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint leicht verwirrt zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang smiles politely and pays. But she seems to be slightly confused.",
+      // zh: "张太太礼貌地微笑着付了账。但她似乎有些困惑。",
+      // de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint leicht verwirrt zu sein."
     },
     expression: "smile_polite_slight_confusion", // EXPRESS POLITE SMILE & SLIGHT CONFUSION
     options: [
@@ -556,16 +565,16 @@ const dialogueTree = {
 
   center_g2_mitigate_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang smiles warmly and happy. \n\n[Mrs. Zhang]: That is very kind of you. I would be happy to join you next time.",
-      zh: "张太太温暖而快乐地微笑着。\n\n[张太太]：你太客气了。我很乐意下次和你一起吃饭。",
-      de: "Frau Zhang lächelt warm und glücklich. \n\n[Frau Zhang]: Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
+      en: "That is very kind of you. I would be happy to join you next time.",
+      zh: "你太客气了。我很乐意下次和你一起吃饭。",
+      de: "Das ist sehr nett von Ihnen. Ich würde mich freuen, das nächste Mal mit Ihnen zu essen."
     },
-    expression: "polite_smile", // EXPRESS WARM & HAPPY SMILE
+    expression: "smile_polite", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g2_mitigate_feedback" }]
   },
 
@@ -643,22 +652,25 @@ const dialogueTree = {
       zh: "不客气。我很高兴我们能一起吃饭。",
       de: "Sehr gerne. Ich freue mich, dass wir zusammen essen konnten."
     },
-    expression: "polite_smile",
+    expression: "smile_polite",
     options: [{ text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "center_g3_outcome" }]
   },
 
   center_g3_outcome: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs Zhang pays the bill and smiles warmly. She is happy.",
-      zh: "张太太付了账，温暖地微笑着。她很快乐。",
-      de: "Frau Zhang bezahlt die Rechnung und lächelt warm. Sie ist glücklich."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs Zhang pays the bill and smiles warmly. She is happy.",
+      // zh: "张太太付了账，温暖地微笑着。她很快乐。",
+      // de: "Frau Zhang bezahlt die Rechnung und lächelt warm. Sie ist glücklich."
     },
-    expression: "polite_smile", // EXPRESS WARM & HAPPY SMILE
+    expression: "smile_polite", // EXPRESS WARM & HAPPY SMILE
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_g3_feedback" }]
   },
 
@@ -709,14 +721,17 @@ const dialogueTree = {
 
   center_round4_strained_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang only smiles lightly. But she seems to be ashamed.",
-      zh: "张太太只是淡淡地微笑着。但她似乎有些羞愧。",
-      de: "Frau Zhang lächelt nur leicht. Aber sie scheint beschämt zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang only smiles lightly. But she seems to be ashamed.",
+      // zh: "张太太只是淡淡地微笑着。但她似乎有些羞愧。",
+      // de: "Frau Zhang lächelt nur leicht. Aber sie scheint beschämt zu sein."
     },
     expression: "smile_slight_ashamed", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [
@@ -742,14 +757,17 @@ const dialogueTree = {
 
   center_overdone_give_in_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang smiles politely and pays. But she seems to be slightly ashamed",
-      zh: "张太太礼貌地微笑着付了账。但她似乎有些羞愧。",
-      de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint leicht beschämt zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang smiles politely and pays. But she seems to be slightly ashamed",
+      // zh: "张太太礼貌地微笑着付了账。但她似乎有些羞愧。",
+      // de: "Frau Zhang lächelt höflich und bezahlt. Aber sie scheint leicht beschämt zu sein."
     },
     expression: "smile_slight_ashamed", // EXPRESS SLIGHT SMILE AND ASHAMED
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_overdone_give_in_feedback" }]
@@ -786,14 +804,17 @@ const dialogueTree = {
 
   center_round5_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang stops smiling and she seems to be ashamed.",
-      zh: "张太太停止微笑，她似乎有些羞愧。",
-      de: "Frau Zhang hört auf zu lächeln und sie scheint beschämt zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang stops smiling and she seems to be ashamed.",
+      // zh: "张太太停止微笑，她似乎有些羞愧。",
+      // de: "Frau Zhang hört auf zu lächeln und sie scheint beschämt zu sein."
     },
     expression: "ashamed", // EXPRESS ASHAMED
     options: [{ text: { en: "Continue", zh: "继续", de: "Weiter" }, nextNode: "center_round5_take_bill" }]
@@ -816,14 +837,17 @@ const dialogueTree = {
 
   center_round5_outcome: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "You pay. Mrs. Zhang doesn't smile but shows sign of frustration and anger.",
-      zh: "你付了账。张太太没有微笑，但表现出沮丧和愤怒的迹象。",
-      de: "Sie bezahlen. Frau Zhang lächelt nicht, zeigt aber Anzeichen von Frustration und Wut."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "You pay. Mrs. Zhang doesn't smile but shows sign of frustration and anger.",
+      // zh: "你付了账。张太太没有微笑，但表现出沮丧和愤怒的迹象。",
+      // de: "Sie bezahlen. Frau Zhang lächelt nicht, zeigt aber Anzeichen von Frustration und Wut."
     },
     expression: "angry", // EXPRESS FRUSTRATION AND ANGER
     options: [{ text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "center_round5_feedback" }]
@@ -865,14 +889,17 @@ const dialogueTree = {
 
   right_round1_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+      en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang stops smiling and seems surprised.",
-      zh: "张太太停止微笑，似乎有些惊讶。",
-      de: "Frau Zhang hört auf zu lächeln und scheint überrascht zu sein."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang stops smiling and seems surprised.",
+      // zh: "张太太停止微笑，似乎有些惊讶。",
+      // de: "Frau Zhang hört auf zu lächeln und scheint überrascht zu sein."
     },
     expression: "surprised", // EXPRESS SURPRISED
     options: [
@@ -918,9 +945,9 @@ const dialogueTree = {
 
   right_backtrack_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+     en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
       en: "Mrs. Zhang smiles again and pays the bill.",
@@ -944,7 +971,7 @@ const dialogueTree = {
       zh: "请别担心。我很高兴我们能一起吃饭。",
       de: "Bitte machen Sie sich keine Sorgen. Ich freue mich, dass wir zusammen essen konnten."
     },
-    expression: "polite_smile",
+    expression: "smile_polite",
     options: [
       { text: { en: "Show Feedback", zh: "显示反馈", de: "Feedback anzeigen" }, nextNode: "right_backtrack_feedback" }
     ]
@@ -986,14 +1013,17 @@ const dialogueTree = {
 
   right_persist_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+     en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang is now slightly frustrated in addition.",
-      zh: "张太太现在有些沮丧。",
-      de: "Frau Zhang ist jetzt zusätzlich leicht frustriert."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang is now slightly frustrated in addition.",
+      // zh: "张太太现在有些沮丧。",
+      // de: "Frau Zhang ist jetzt zusätzlich leicht frustriert."
     },
     expression: "angry", // EXPRESS SLIGHT FRUSTRATION
     options: [
@@ -1039,14 +1069,17 @@ const dialogueTree = {
 
   right_mitigate_reaction: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+     en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang slightly smiles again and pays the bill.",
-      zh: "张太太再次淡淡地微笑着付了账。",
-      de: "Frau Zhang lächelt wieder leicht und bezahlt die Rechnung."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang slightly smiles again and pays the bill.",
+      // zh: "张太太再次淡淡地微笑着付了账。",
+      // de: "Frau Zhang lächelt wieder leicht und bezahlt die Rechnung."
     },
     expression: "smile_polite", // EXPRESS SLIGHT SMILE
     options: [
@@ -1090,14 +1123,17 @@ const dialogueTree = {
 
   right_force_split_outcome: {
     speaker: {
-      en: "Narrator",
-      zh: "旁白",
-      de: "Erzähler"
+     en: "Mrs. Zhang",
+      zh: "张太太",
+      de: "Frau Zhang"
     },
     text: {
-      en: "Mrs. Zhang seems more frustrated and you split the bill.",
-      zh: "张太太似乎更沮丧了，你们平摊了账单。",
-      de: "Frau Zhang scheint frustrierter zu sein und Sie teilen die Rechnung."
+      en: "...",
+      zh: "...",
+      de: "..."
+      // en: "Mrs. Zhang seems more frustrated and you split the bill.",
+      // zh: "张太太似乎更沮丧了，你们平摊了账单。",
+      // de: "Frau Zhang scheint frustrierter zu sein und Sie teilen die Rechnung."
     },
     expression: "angry", // EXPRESS FRUSTRATION
     options: [
