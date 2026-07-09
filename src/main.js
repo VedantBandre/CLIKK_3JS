@@ -24,7 +24,7 @@ let emotionFinished = false;
 
 let morphableMeshes = []; 
 let avatarLoaded = false;
-let mode = "idle";
+let mode = "neutral";
 let clipsLoaded = false; // Track when clips are ready
 
 const emotionFiles = {
